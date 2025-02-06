@@ -1,0 +1,30 @@
+<h1>Welcome {{user.first_name}} {{ user.last_name}}</h1>
+
+<h2>My Announcments</h2>
+{% if my_announcments %}
+    <ul>
+    {% for announcment in my_announcments %}
+        <li><a href="{% url 'main_app:landing_page' announcment.id %}">{{ announcment.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not created any announcments yet!</p>
+{% endif %}
+<br>
+<br>
+<h2>Other Announcments</h2>
+{% if other_announcments %}
+    <ul>
+    {% for announcment in other_announcments %}
+        <li><a href="{% url 'main_app:landing_page' announcment.id %}">{{ announcment.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>There is not any external announcments</p>
+{% endif %}
+
+<br>
+<br>
+<br>
+<a href="{% url 'main_app:logout' %}">logout</a>
+<br>
