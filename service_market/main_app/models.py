@@ -6,15 +6,17 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 
 
-class User(models.Model):
+class AppUser(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
-    mail = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
 
-class Announcment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+class Announcement(models.Model):
+    author = models.ForeignKey(AppUser, on_delete=models.CASCADE, null=True, blank=True)
     description = models.CharField(max_length=400)
     title = models.CharField(max_length=50)
     pub_date = models.DateTimeField("date published")
+    image = models.ImageField(upload_to='announcement_images/', blank=True, null=True)
+    contact_info = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Announcement: {self.title}\nContent: {self.description}"
@@ -32,10 +34,10 @@ class Announcment(models.Model):
 class UserLog(models.Model):
     actions = [
         ('login', "Login Successfully"),
-        ('announcment', "Look announcment list"),
+        ('announcement', "Look announcement list"),
         ('detail', 'View single question info')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     action_time = models.DateTimeField()
     action = models.CharField(choices=actions, max_length=20)

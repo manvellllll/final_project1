@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ announcement.title }} - Announcement</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="announcement-container">
+        <!-- Back to Announcements List -->
+        <div class="back-link">
+            <a href="{% url 'main_app:landing_page' %}">Back to Announcements</a>
+        </div>
+        
+        <!-- Announcement Title -->
+        <h1 class="announcement-title">{{ announcement.title }}</h1>
+        
+        <!-- Announcement Date -->
+        <p class="announcement-date">
+            <strong>Date:</strong> {{ announcement.pub_date }}
+        </p>
+
+        <!-- Announcement Image (if any) -->
+        {% if announcement.image %}
+        <div class="announcement-image">
+            <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}">
+        </div>
+        {% endif %}
+
+        <!-- Announcement Content -->
+        <div class="announcement-content">
+            <p>{{ announcement.description }}</p>
+        </div>
+
+        <!-- Optional: Author -->
+        {% if announcement.author %}
+        <p class="announcement-author"><strong>Author:</strong> {{ announcement.author }}</p>
+        {% endif %}
+
+        <!-- Optional: Contact Info or Additional Links -->
+        {% if announcement.contact_info %}
+        <div class="announcement-contact-info">
+            <strong>Contact Information:</strong> {{ announcement.contact_info }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

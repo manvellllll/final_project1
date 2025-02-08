@@ -9,24 +9,21 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as _login, logout as _logout
 from datetime import datetime
-
-from .models import User, UserLog, Announcment
-
-
+from .models import AppUser, UserLog, Announcement
 
 def landing_page(request):
     if request.user.is_authenticated:
-        my_announcments = Announcment.objects.filter(author__user=request.user).order_by("-pub_date")
-        other_announcments = Announcments.objects.exclude(author__user=request.user).order_by("-pub_date")
+        my_announcements = Announcement.objects.filter(author__user=request.user).order_by("-pub_date")
+        other_announcements = Announcement.objects.exclude(author__user=request.user).order_by("-pub_date")
         context = {
-            "my_announcments": my_announcments,
-            "other_announcments": other_announcments,
+            "my_announcements": my_announcements,
+            "other_announcements": other_announcements,
             "user": request.user,
         }
-        usr = User.objects.get(user=request.user)
-        log = UserLog(user=usr, action_time=datetime.now(), action='question')
+        usr = AppUser.objects.get(user=request.user)
+        log = UserLog(user=usr, action_time=datetime.now(), action='announcement')
         log.save()
-        return render(request, "main_app/landing_page.html", context)
+        return render(request, "main_app/landing_page.html", {})
     else:
         return HttpResponseRedirect('/main_app/login')
 
@@ -36,18 +33,24 @@ def register(request):
         return render(request, "main_app/register.html", {})
     else:
         try:
-            first_name = request.POST["firstname"]
-            last_name = request.POST["lastname"]
+            name = request.POST['name']
             email = request.POST["email"]
-            country = request.POST["country"]
             password = request.POST["password"]
             repeat_password = request.POST["repeat_password"]
         except:
             return render(request, "main_app/register.html", {"error_message": "Missed Field"})        
 
         if password != repeat_password:
-            return render(request, "main_app/register.html", {"error_message": "Password not match."})
+            return render(request, "main_app/register.html", {"error_message": "Password not match."})        
 
+    user = User.objects.create_user(username=email, email=email, password=password)
+    user.name = name
+    user.save()
+    
+    poll_user = AppUser(user=user, email=email)
+    poll_user.save()
+
+    return  HttpResponseRedirect('/main_app/login/')
 
 def login(request):
     if request.method == "GET":
@@ -63,7 +66,7 @@ def login(request):
     print("USER", email, password)
     if user:
         _login(request, user)
-        usr = User.objects.get(user=user)
+        usr = AppUser.objects.get(user=user)
         log = UserLog(user=usr, action_time=datetime.now(), action='login')
         log.save()
         return HttpResponseRedirect('/main_app/')
@@ -75,4 +78,33 @@ def login(request):
 
 def logout(request):
     _logout(request)
-    return HttpResponseRedirect("/main_site/login")
+    return HttpResponseRedirect("/main_app/login")
+
+
+
+def announcement_detail(request, id):
+    announcement = get_object_or_404(Announcement, id=id)
+    return render(request, 'main_app/detail.html', {'announcement': announcement})
+
+
+def add_announcement(request):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            return render(request, 'main_app/add_announcement.html', {})
+        else:
+            user = request.user
+            auser = AppUser.objects.get(user=user)
+            description = request.POST["description"]
+            title = request.POST['title']
+            contact_info = request.POST['contact_info']
+            image = request.POST['image']
+
+            a = Announcement(author=auser,
+                description=description,
+                title=title,
+                image=image,
+                contact_info=contact_info,
+            )
+            a.save()
+    else:
+        return HttpResponseRedirect("/main_app/login")
