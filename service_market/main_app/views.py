@@ -43,12 +43,12 @@ def register(request):
         if password != repeat_password:
             return render(request, "main_app/register.html", {"error_message": "Password not match."})        
 
-    user = User.objects.create_user(username=email, email=email, password=password)
-    user.name = name
-    user.save()
-    
-    poll_user = AppUser(user=user, email=email)
-    poll_user.save()
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.first_name = name
+        user.save()
+        
+        poll_user = AppUser(user=user, email=email)
+        poll_user.save()
 
     return  HttpResponseRedirect('/main_app/login/')
 
