@@ -1,11 +1,30 @@
-<form action="{% url 'main_app:login' %}" method="post">
-    {% csrf_token %}
-    <legend><h1>Login</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}    
-    
-    <input type="text" name="email" id="email" value="" placeholder="Email">
-    <br>
-    <input type="password" name="password" id="password" value="" placeholder="Password">
-    <br>
-    <input type="submit" value="Login">
-</form>
+{% load static %}
+    <form action="{% url 'main_app:login' %}" method="post">
+        {% csrf_token %}
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Login Page</title>
+                <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
+            </head>
+            <body>
+                <div class="login-container">
+                    <form class="login-form">
+                        <h2>Login</h2>
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input  type="text" name="email" id="email" value="" placeholder="Email">
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" value="" placeholder="Password">
+                        </div>
+                        <button type="submit" class="login-btn">Log In</button>
+                    </form>
+                    <div class="signup-link">
+                        <p>Don't have an account?</p>
+                        <a href="{% url 'main_app:register' %}">Sign Up</a>
+                </div>
+            </body>
+            </html>        
