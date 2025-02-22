@@ -13,12 +13,10 @@ from .models import AppUser, UserLog, Announcement
 
 def landing_page(request):
     if request.user.is_authenticated:
-        my_announcements = Announcement.objects.filter(author__user=request.user).order_by("-pub_date")
-        other_announcements = Announcement.objects.exclude(author__user=request.user).order_by("-pub_date")
+        announcements = Announcement.objects.order_by("-pub_date")
         context = {
-            "my_announcements": my_announcements,
-            "other_announcements": other_announcements,
-            "user": request.user,
+            "announcements" : announcements,
+            "user" : request.user,
         }
         usr = AppUser.objects.get(user=request.user)
         log = UserLog(user=usr, action_time=datetime.now(), action='announcement')
