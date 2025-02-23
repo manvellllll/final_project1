@@ -14,6 +14,7 @@ from .models import AppUser, UserLog, Announcement
 def landing_page(request):
     if request.user.is_authenticated:
         announcements = Announcement.objects.order_by("-pub_date")
+        print('announcments', announcements)
         context = {
             "announcements" : announcements,
             "user" : request.user,
@@ -21,7 +22,7 @@ def landing_page(request):
         usr = AppUser.objects.get(user=request.user)
         log = UserLog(user=usr, action_time=datetime.now(), action='announcement')
         log.save()
-        return render(request, "main_app/landing_page.html", {})
+        return render(request, "main_app/landing_page.html", context)
     else:
         return HttpResponseRedirect('/main_app/login')
 
@@ -102,7 +103,10 @@ def add_announcement(request):
                 title=title,
                 image=image,
                 contact_info=contact_info,
+                pub_date=datetime.now()
             )
             a.save()
+            return HttpResponseRedirect("/main_app/announcement/" + str(a.id))
+
     else:
         return HttpResponseRedirect("/main_app/login")

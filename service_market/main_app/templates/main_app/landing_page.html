@@ -1,6 +1,5 @@
 {% load static %}
-<form action="{% url 'main_app:login' %}" method="post">
-    {% csrf_token %}
+{% csrf_token %}
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -15,7 +14,7 @@
             <div class="announcements">
                 {% for announcement in announcements %}
                     <div class="announcement-block">
-                        <a href="{% url 'main_app:landing_page' announcment.id %}">{{ announcment.title }}>
+                        <a href="{% url 'main_app:announcement_detail' announcement.id %}">{{ announcment.title }}>
                             {{ announcement.title }}
                         </a>
                     </div>

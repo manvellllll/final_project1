@@ -1,0 +1,108 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Container for the Announcement */
+.announcement-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 8px;
+}
+
+/* Back Link */
+.back-link {
+    margin-bottom: 20px;
+}
+
+.back-link a {
+    color: #007bff; /* Blue color */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+/* Announcement Title */
+.announcement-title {
+    font-size: 2.5rem;
+    color: #0056b3; /* Dark blue for title */
+    margin-bottom: 10px;
+}
+
+/* Date Published */
+.announcement-date {
+    font-size: 1rem;
+    color: #007bff; /* Light blue for the date */
+    margin-bottom: 20px;
+}
+
+.announcement-date strong {
+    font-weight: bold;
+}
+
+/* Announcement Image */
+.announcement-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Content Section */
+.announcement-content {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Author Section */
+.announcement-author {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #0056b3; /* Blue for the author name */
+    margin-bottom: 15px;
+}
+
+/* Contact Info Section */
+.announcement-contact-info {
+    font-size: 1.1rem;
+    color: #333;
+    background-color: #f8f9fa; /* Light background for contact info */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+/* Optional Styling for Contact Input */
+.announcement-contact-info input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.announcement-contact-info input:read-only {
+    background-color: #f1f1f1; /* Light background for read-only input */
+}
