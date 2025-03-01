@@ -96,7 +96,7 @@ def add_announcement(request):
             description = request.POST["description"]
             title = request.POST['title']
             contact_info = request.POST['contact_info']
-            image = request.POST['image']
+            image = request.FILES['image']
 
             a = Announcement(author=auser,
                 description=description,

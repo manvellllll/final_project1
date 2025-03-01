@@ -26,7 +26,7 @@
         <!-- Announcement Image (if any) -->
         {% if announcement.image %}
         <div class="announcement-image">
-            <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}">
+            <img src="{{% static 'images/announcement.image' %}}" alt="{{ announcement.title }}">
         </div>
         {% endif %}
 
