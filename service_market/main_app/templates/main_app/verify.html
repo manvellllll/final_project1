@@ -1,3 +1,5 @@
+{% load static %}
+{% csrf_token %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +9,23 @@
     <link rel="stylesheet" href="{% static 'css/styles_verify.css' %}">
 </head>
 <body>
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    
     <div class="container">
         <h1 class="title">Verification Code</h1>
         <p class="description">Please enter the 5-digit verification code sent to your email.</p>
+        
         <form method="POST" class="verification-form">
             {% csrf_token %}
-            <input type="text" name="verification_code" class="code-input" maxlength="5" placeholder="Enter Code" required>
+            
+            <label for="verification_code">Verification Code:</label>
+            <input type="text" name="verification_code" id="verification_code" class="code-input" maxlength="5" placeholder="Enter Code" required>
+            
             <button type="submit" class="submit-btn">Verify</button>
         </form>
     </div>
 </body>
 </html>
+

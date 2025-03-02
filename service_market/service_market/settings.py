@@ -17,13 +17,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
+EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'announcement.app1@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'Manvel2009'  # Your email password
-DEFAULT_FROM_EMAIL = 'announcement.app1@gmail.com'  # The email address to use as the "from" address
-
+EMAIL_HOST_USER = 'manvell@zohomail.com'
+EMAIL_HOST_PASSWORD = 'Manvel2009'
+DEFAULT_FROM_EMAIL = 'manvell@zohomail.com'
 
 
 # Quick-start development settings - unsuitable for production

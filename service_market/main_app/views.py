@@ -3,6 +3,8 @@ import json
 import os
 
 #
+from django.conf import settings
+
 import random
 from django.core.mail import send_mail
 from django.db.models import F
@@ -46,15 +48,14 @@ def register(request):
             return render(request, "main_app/register.html", {"error_message": "Missed Field"})        
 
         if password != repeat_password:
-            return render(request, "main_app/register.html", {"error_message": "Password not match."})        
-
+            return render(request, "main_app/register.html", {"error_message": "Password not match."})   
+        
         gen_code = generate_code()
-        request.session['verification_code'] = gen_code
+        request.session['gen_code'] = gen_code
 
-        # Send the email to the user with the verification code
         subject = "Hi dear client"
         message = f"This is your verification code: {gen_code}"
-        from_email = settings.EMAIL_HOST_USER
+        from_email = settings.DEFAULT_FROM_EMAIL
         to = email 
 
         send_mail(subject, message, from_email, [to])
@@ -71,9 +72,10 @@ def register(request):
 
 def verify(request):
     if request.method == "POST":
-        code = request.POST.get("code")
-
-        if code == request.session.get('verification_code'):
+        code = request.POST.get("verification_code", [None])
+        gen_code = request.session.get('gen_code')
+        
+        if code == gen_code:
             return HttpResponseRedirect('/main_app/login')
 
         else:
