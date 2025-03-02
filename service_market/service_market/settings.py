@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,9 +20,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''  # Your email address
-EMAIL_HOST_PASSWORD = 'your_email_password'  # Your email password
-DEFAULT_FROM_EMAIL = 'your_email@gmail.com'  # The email address to use as the "from" address
+EMAIL_HOST_USER = 'announcement.app1@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'Manvel2009'  # Your email password
+DEFAULT_FROM_EMAIL = 'announcement.app1@gmail.com'  # The email address to use as the "from" address
 
 
 
@@ -131,6 +131,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "main_app/templates/main_app/static",  # where your static files are stored in development
 ]
+# File system path where uploaded media files are stored
+MEDIA_ROOT = os.path.join(BASE_DIR, '')  
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

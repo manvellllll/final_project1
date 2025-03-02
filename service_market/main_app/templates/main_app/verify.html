@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Page</title>
+    <link rel="stylesheet" href="{% static 'css/styles_verify.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Verification Code</h1>
+        <p class="description">Please enter the 5-digit verification code sent to your email.</p>
+        <form method="POST" class="verification-form">
+            {% csrf_token %}
+            <input type="text" name="verification_code" class="code-input" maxlength="5" placeholder="Enter Code" required>
+            <button type="submit" class="submit-btn">Verify</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -14,3 +14,4 @@ urlpatterns = [
     path('announcement/<int:id>/', views.announcement_detail, name='announcement_detail'),
     path('add_announcement', views.add_announcement, name='add_announcement')
 ]
+

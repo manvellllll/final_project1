@@ -1,7 +1,10 @@
 #
 import json
+import os
 
 #
+import random
+from django.core.mail import send_mail
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -28,6 +31,9 @@ def landing_page(request):
 
 
 def register(request):
+    def generate_code():
+        return str(random.randint(10000, 99999))
+
     if request.method == "GET":
         return render(request, "main_app/register.html", {})
     else:
@@ -42,14 +48,39 @@ def register(request):
         if password != repeat_password:
             return render(request, "main_app/register.html", {"error_message": "Password not match."})        
 
+        gen_code = generate_code()
+        request.session['verification_code'] = gen_code
+
+        # Send the email to the user with the verification code
+        subject = "Hi dear client"
+        message = f"This is your verification code: {gen_code}"
+        from_email = settings.EMAIL_HOST_USER
+        to = email 
+
+        send_mail(subject, message, from_email, [to])
+
         user = User.objects.create_user(username=email, email=email, password=password)
         user.first_name = name
         user.save()
         
-        poll_user = AppUser(user=user, email=email)
-        poll_user.save()
+        app_user = AppUser(user=user, email=email)
+        app_user.save()
 
-    return  HttpResponseRedirect('/main_app/login/')
+    return  HttpResponseRedirect('/main_app/verify/')
+
+
+def verify(request):
+    if request.method == "POST":
+        code = request.POST.get("code")
+
+        if code == request.session.get('verification_code'):
+            return HttpResponseRedirect('/main_app/login')
+
+        else:
+            return render(request, "main_app/verify.html", {"error_message": "Verification code is invalid."})
+    
+    return render(request, "main_app/verify.html", {})
+
 
 def login(request):
     if request.method == "GET":
@@ -83,7 +114,9 @@ def logout(request):
 
 def announcement_detail(request, id):
     announcement = get_object_or_404(Announcement, id=id)
-    return render(request, 'main_app/detail.html', {'announcement': announcement})
+    print(os.path.basename(announcement.image.name))
+    img = "images/" + os.path.basename(announcement.image.name)
+    return render(request, 'main_app/detail.html', {'announcement': announcement, 'img': img})
 
 
 def add_announcement(request):

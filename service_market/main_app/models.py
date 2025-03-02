@@ -15,7 +15,7 @@ class Announcement(models.Model):
     description = models.CharField(max_length=400)
     title = models.CharField(max_length=50)
     pub_date = models.DateTimeField("date published")
-    image = models.ImageField(upload_to='main_app/templates/main_app/static/images/', blank=True, null=True)
+    image = models.FileField(upload_to='main_app/templates/main_app/static/images/', blank=True, null=True)
     contact_info = models.TextField(blank=True, null=True)
 
     def __str__(self):
